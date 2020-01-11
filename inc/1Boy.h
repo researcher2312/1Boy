@@ -24,6 +24,9 @@
 #define BT1 (1<<PD0)
 #define BT2 (1<<PD1)
 
+#define BT1_DOWN !(PIND & BT1)
+#define BT2_DOWN !(PIND & BT2)
+
 
 
 #endif /* INC_1BOY_H_ */

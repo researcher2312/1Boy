@@ -17,10 +17,22 @@ int main(){
 	OCR0A = 125; //delay, 1 KHz
 	TIMSK |= (1<<OCIE0A); //interrupt enable
 
+	uint8_t delta_time = 0;
+	uint8_t previous_button_state [2] = {0};
+	uint8_t button_state [2] = {0};
+
 	sei();
 
 	while(1){
+		if (time_ms > 10){ //100 Hz main loop
+			delta_time = time_ms;
+			time_ms = 0;
 
+			previous_button_state[0] = button_state[0];
+			previous_button_state[1] = button_state[1];
+			button_state[0] = BT1_DOWN;
+			button_state[1] = BT2_DOWN;
+		}
 	}
 
 
