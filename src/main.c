@@ -1,13 +1,11 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "1Boy.h"
+#include "1Boy_screen.h"
 
-volatile int time_ms = 0;
+volatile unsigned int time_ms = 0;
 
 int main(){
-	uint8_t leds[] = {LED1, LED2, LED3, LED4, LED5, LED6, LED7, LED8};
-	uint8_t rgb[] = {LED_RD, LED_GR, LED_BL};
-
 	DDRB |= LED1 | LED2 | LED3 | LED4 | LED5 | LED6 | LED7 | LED8;
 	DDRD |= LED_RD | LED_GR | LED_BL;
 	PORTD |= BT1 | BT2 | LED_RD | LED_GR | LED_BL;
@@ -26,6 +24,7 @@ int main(){
 	while(1){
 		if (time_ms > 10){ //100 Hz main loop
 			delta_time = time_ms;
+			screen_time += delta_time;
 			time_ms = 0;
 
 			previous_button_state[0] = button_state[0];

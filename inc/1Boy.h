@@ -21,6 +21,14 @@
 #define LED_GR (1<<PD5)
 #define LED_BL (1<<PD4)
 
+#define LED_RD_OFF PORTD |= LED_RD
+#define LED_GR_OFF PORTD |= LED_GR
+#define LED_BL_OFF PORTD |= LED_BL
+
+#define LED_RD_ON PORTD &= ~LED_RD
+#define LED_GR_ON PORTD &= ~LED_GR
+#define LED_BL_ON PORTD &= ~LED_BL
+
 #define BT1 (1<<PD0)
 #define BT2 (1<<PD1)
 
