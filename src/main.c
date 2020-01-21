@@ -109,6 +109,10 @@ int main(){
 				clearScreen();
 				addBar(0, points[0]);
 				addBar(1, points[1]);
+				if (points[0] == 5 || points[1] == 5){
+					step = 3;
+					break;
+				}
 				setRGBColor(BLUE);
 				if (game_time > delay){
 					delay = 250;
@@ -116,6 +120,11 @@ int main(){
 					step = 0;
 				}
 				break;
+
+			case 3:
+				addBar(points[0]>points[1] ? 0 : 1, 5);
+				_delay_ms(500);
+				return;
 			}
 
 			updateScreen(delta_time);
