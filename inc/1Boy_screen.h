@@ -20,12 +20,14 @@
 typedef struct ScreenState{
 	uint8_t leds; //all 8 bits
 	uint8_t rgb;  //bits 0-2
+	uint16_t blink_delay;
+	uint16_t current_blink;
 } ScreenState;
 
 
 extern ScreenState current_screen;
 
-void updateScreen();
+void updateScreen(uint16_t);
 void clearScreen();
 void addScreenPoint(uint8_t position);
 void rmScreenPoint(uint8_t position);

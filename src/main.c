@@ -22,7 +22,7 @@ int main(){
 	OCR0A = 125; //delay, 1 KHz
 	TIMSK |= (1<<OCIE0A); //interrupt enable
 
-	uint8_t delta_time = 0;
+	uint16_t delta_time = 0;
 
 //	uint8_t rgb []= {BLACK, RED, GREEN, BLUE, YELLOW, MAGENTA, CYAN, WHITE};
 //	uint8_t rgb_num = 0;
@@ -118,7 +118,7 @@ int main(){
 				break;
 			}
 
-			updateScreen();
+			updateScreen(delta_time);
 		}
 	}
 }

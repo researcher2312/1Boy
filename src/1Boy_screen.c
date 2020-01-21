@@ -47,7 +47,22 @@ void setRGBColor(uint8_t color){
 	current_screen.rgb = color;
 }
 
-void updateScreen(){
+void startBlink(uint16_t new_blink_delay){//if blink delay = 0 then blink is disabled
+	current_screen.blink_delay = new_blink_delay;
+}
+
+void updateScreen(uint16_t delta_time){
+	if (current_screen.blink_delay > 0){
+		current_screen.current_blink += delta_time;
+		if (current_screen.current_blink > current_screen.blink_delay)
+			current_screen.blink_delay = 0;
+		if (current_screen.current_blink > current_screen.blink_delay/2){
+			PORTB = 0x00;
+			LED_GR_OFF;
+			LED_BL_OFF;
+			LED_RD_OFF;
+		}
+	}
 	PORTB = current_screen.leds;
 	if (current_screen.rgb & 0x01)
 		LED_RD_ON;
