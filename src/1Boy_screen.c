@@ -2,7 +2,6 @@
 #include "1Boy.h"
 #include "1Boy_screen.h"
 
-volatile int screen_time;
 ScreenState current_screen;
 
 void clearScreen(){
@@ -16,7 +15,36 @@ void addScreenPoint(uint8_t position){
 	else if (position > 4)
 		current_screen.leds |= (1<<(position-1));
 	else if (position == 4)
-		current_screen.rgb = 0x02;
+		current_screen.rgb = GREEN;
+}
+
+void rmScreenPoint(uint8_t position){
+	if (position < 4)
+		current_screen.leds &= ~(1<<position);
+	else if (position > 4)
+		current_screen.leds &= ~(1<<(position-1));
+	else if (position == 4)
+		current_screen.rgb = BLACK;
+}
+
+void addBar(uint8_t side, uint8_t size){ //0 = left 1 = right
+	uint8_t i;
+	for (i=0; i<size; ++i){
+		if(side)
+			addScreenPoint(i);
+		else
+			addScreenPoint(8-i);
+	}
+}
+
+
+void fullGreen(){
+	current_screen.rgb = GREEN;
+	current_screen.leds = 0xff;
+}
+
+void setRGBColor(uint8_t color){
+	current_screen.rgb = color;
 }
 
 void updateScreen(){
