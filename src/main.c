@@ -7,8 +7,8 @@ volatile unsigned int time_ms = 0;
 uint8_t previous_button_state [2] = {0};
 uint8_t button_state [2] = {0};
 
-uint8_t pressedNow(uint8_t button_number);
-void displayScore(uint8_t player_1, uint8_t player_2);
+extern uint8_t football(uint16_t *game_time);
+
 
 int main(){
 	DDRB |= LED1 | LED2 | LED3 | LED4 | LED5 | LED6 | LED7 | LED8;
@@ -20,25 +20,12 @@ int main(){
 	OCR0A = 125; //delay, 1 KHz
 	TIMSK |= (1<<OCIE0A); //interrupt enable
 
-	uint16_t delta_time = 0;
-
-//	uint8_t rgb []= {BLACK, RED, GREEN, BLUE, YELLOW, MAGENTA, CYAN, WHITE};
-//	uint8_t rgb_num = 0;
-//
-//	int (*program)(uint8_t);
-//	program = intro;
-
 	sei();
 
-	uint8_t step = 0;
-	uint16_t delay = 250;
-	uint8_t points [2] = {0};
+	uint16_t delta_time = 0;
 	uint16_t game_time = 0;
-
-	int8_t position = 4;
-	uint8_t direction = 1; //0 = left 1 = right
-
-
+	uint8_t game_played = 0;
+	uint8_t game_choice = 0;
 
 	while(1){
 		if (time_ms > 10){ //100 Hz main loop
@@ -51,78 +38,35 @@ int main(){
 			button_state[0] = BT1_DOWN;
 			button_state[1] = BT2_DOWN;
 
-
-			switch (step){
-			case 0: //initial ball view
+			switch(game_played){
+			case 0:
+				startBlink(500);
 				clearScreen();
-				addScreenPoint(4);
-				if (game_time > 1000){
-					++step;
-					game_time = 0;
+				addScreenPoint(8-game_choice);
+				if (pressedNow(1)){
+					++game_choice;
+					if(game_choice > 3)
+						game_choice = 0;
+				}
+				if (pressedNow(0)){
+					startBlink(0);
+					game_played = game_choice + 1;
 				}
 				break;
 
-			case 1: //normal game routine
-				if (game_time > delay){
-					clearScreen();
-					if (direction){
-						if (position == 0){
-							points[0] += 1;
-							step = 2;
-							position = 4;
-							direction = 0;
-							delay = 2000;
-						}
-						else
-							--position;
-					}
-					else{
-						if (position == 8){
-							points[1] += 1;
-							step = 2;
-							position = 4;
-							direction = 1;
-							delay = 2000;
-						}
-						else
-							++position;
-					}
-					addScreenPoint(position);
-					game_time = 0;
-				}
-
-
-				if (position == 8 && pressedNow(0)){
-					direction = 1;
-					delay = delay - delay/10;
-				}
-
-				if (position == 0 && pressedNow(1)){
-					direction = 0;
-					delay = delay - delay/10;
-				}
+			case 1:
+				if(football(&game_time) == 1)
+					game_played = 0;
 				break;
 
-			case 2: //points display
-				clearScreen();
-				addBar(0, points[0]);
-				addBar(1, points[1]);
-				if (points[0] == 5 || points[1] == 5){
-					step = 3;
-					break;
-				}
-				setRGBColor(BLUE);
-				if (game_time > delay){
-					delay = 250;
-					game_time = 0;
-					step = 0;
-				}
+			case 2:
 				break;
 
 			case 3:
-				addBar(points[0]>points[1] ? 0 : 1, 5);
-				_delay_ms(500);
-				return;
+				break;
+
+			case 4:
+				break;
 			}
 
 			updateScreen(delta_time);
