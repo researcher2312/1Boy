@@ -55,25 +55,27 @@ void updateScreen(uint16_t delta_time){
 	if (current_screen.blink_delay > 0){
 		current_screen.current_blink += delta_time;
 		if (current_screen.current_blink > current_screen.blink_delay)
-			current_screen.blink_delay = 0;
-		if (current_screen.current_blink > current_screen.blink_delay/2){
+			current_screen.current_blink = 0;
+	}
+	if (current_screen.blink_delay > 0 && current_screen.current_blink < current_screen.blink_delay/2){
 			PORTB = 0x00;
 			LED_GR_OFF;
 			LED_BL_OFF;
 			LED_RD_OFF;
-		}
 	}
-	PORTB = current_screen.leds;
-	if (current_screen.rgb & 0x01)
-		LED_RD_ON;
-	else
-		LED_RD_OFF;
-	if (current_screen.rgb & 0x02)
-		LED_GR_ON;
-	else
-		LED_GR_OFF;
-	if (current_screen.rgb & 0x04)
-		LED_BL_ON;
-	else
-		LED_BL_OFF;
+	else{
+		PORTB = current_screen.leds;
+		if (current_screen.rgb & 0x01)
+			LED_RD_ON;
+		else
+			LED_RD_OFF;
+		if (current_screen.rgb & 0x02)
+			LED_GR_ON;
+		else
+			LED_GR_OFF;
+		if (current_screen.rgb & 0x04)
+			LED_BL_ON;
+		else
+			LED_BL_OFF;
+	}
 }

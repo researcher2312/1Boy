@@ -34,6 +34,7 @@ void rmScreenPoint(uint8_t position);
 void addBar(uint8_t side, uint8_t size);
 void setRGBColor(uint8_t color);
 void fullGreen();
+void startBlink(uint16_t new_blink_delay);
 
 int intro(uint8_t delta_time);
 

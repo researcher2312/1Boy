@@ -1,7 +1,5 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <util/delay.h>
-#include <stdlib.h>
 #include "1Boy.h"
 #include "1Boy_screen.h"
 
@@ -138,8 +136,6 @@ uint8_t pressedNow(uint8_t button_number){
 	else
 		return 0;
 }
-
-
 
 ISR(TIMER0_COMPA_vect){
 	++time_ms;

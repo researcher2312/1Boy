@@ -35,6 +35,8 @@
 #define BT1_DOWN !(PIND & BT1)
 #define BT2_DOWN !(PIND & BT2)
 
+uint8_t pressedNow(uint8_t button_number);
+
 
 
 #endif /* INC_1BOY_H_ */
