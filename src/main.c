@@ -64,6 +64,8 @@ int main(){
 				break;
 
 			case 2:
+				if(memory(&game_time) == 1)
+					game_played = 0;
 				break;
 
 			case 3:

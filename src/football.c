@@ -91,7 +91,7 @@ uint8_t football(uint16_t *game_time){
 			step = 0;
 			delay = 250;
 			points[0] = 0;
-			points[1]=1;
+			points[1] = 0;
 			return 1;
 		}
 	}
