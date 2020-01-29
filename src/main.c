@@ -8,6 +8,7 @@ uint8_t previous_button_state [2] = {0};
 uint8_t button_state [2] = {0};
 
 extern uint8_t football(uint16_t *game_time);
+extern uint8_t memory(uint16_t *game_time);
 
 
 int main(){
@@ -24,8 +25,10 @@ int main(){
 
 	uint16_t delta_time = 0;
 	uint16_t game_time = 0;
-	uint8_t game_played = 0;
+	uint8_t game_played = 5;
 	uint8_t game_choice = 0;
+
+	uint8_t intro_step = 0;
 
 	while(1){
 		if (time_ms > 10){ //100 Hz main loop
@@ -50,6 +53,7 @@ int main(){
 				}
 				if (pressedNow(0)){
 					startBlink(0);
+					game_time = 0;
 					game_played = game_choice + 1;
 				}
 				break;
@@ -67,7 +71,21 @@ int main(){
 
 			case 4:
 				break;
+			case 5:
+				if(game_time > (250*intro_step + 250)){
+					addScreenPoint(intro_step);
+					addScreenPoint(8-intro_step);
+					setRGBColor(BLACK + intro_step);
+					++intro_step;
+					if(intro_step == 8){
+						clearScreen();
+						game_played = 0;
+					}
+				}
+				break;
 			}
+
+
 
 			updateScreen(delta_time);
 		}

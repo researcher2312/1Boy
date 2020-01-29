@@ -5,10 +5,9 @@
  *      Author: researcher
  */
 #include <avr/io.h>
+#include "1Boy.h"
 #include "1Boy_screen.h"
 
-extern uint16_t delay;
-extern uint8_t pressedNow (uint8_t button_number);
 
 uint8_t football(uint16_t *game_time){
 	static int8_t position = 4;

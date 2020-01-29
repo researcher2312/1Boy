@@ -37,6 +37,7 @@
 
 uint8_t pressedNow(uint8_t button_number);
 
-
+extern uint16_t delay;
+extern volatile unsigned int time_ms;
 
 #endif /* INC_1BOY_H_ */
